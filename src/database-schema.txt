@@ -1,0 +1,140 @@
+# MyBudget - Estrutura do Banco de Dados Supabase
+## Tabela: expenses
+- id: uuid (primary key, default: uuid_generate_v4())
+- user_id: uuid (not null, references auth.users.id)
+- amount: numeric (not null)
+- category: text (not null)
+- description: text (not null)
+- date: date (not null)
+- created_at: timestamp with time zone (default: now())
+## Tabela: bills
+- id: uuid (primary key, default: uuid_generate_v4())
+- user_id: uuid (not null, references auth.users.id)
+- amount: numeric (not null)
+- description: text (not null)
+- due_date: date (not null)
+- payment_date: date
+- status: text (not null, default: 'pending') - Valores: 'pending', 'paid', 'overdue'
+- recurrent: boolean (not null, default: false)
+- recurrence_period: text - Valores: 'weekly', 'biweekly', 'monthly', 'quarterly', 'yearly'
+- created_at: timestamp with time zone (default: now())
+## Tabela: income
+- id: uuid (primary key, default: uuid_generate_v4())
+- user_id: uuid (not null, references auth.users.id)
+- amount: numeric (not null)
+- source: text (not null)
+- description: text (not null)
+- date: date (not null)
+- created_at: timestamp with time zone (default: now())
+## Tabela: budget
+- id: uuid (primary key, default: uuid_generate_v4())
+- user_id: uuid (not null, references auth.users.id)
+- month: text (not null)
+- year: integer (not null)
+- amount: numeric (not null)
+- created_at: timestamp with time zone (default: now())
+## Tabela: user_settings
+- id: uuid (primary key, default: uuid_generate_v4())
+- user_id: uuid (not null, references auth.users.id)
+- theme: text (not null, default: 'light') - Valores: 'light', 'dark'
+- default_view: text (not null, default: 'cards') - Valores: 'cards', 'table', 'calendar'
+- notifications_enabled: boolean (not null, default: true)
+- created_at: timestamp with time zone (default: now())
+- updated_at: timestamp with time zone
+## Tabela: user_profiles
+- id: uuid (primary key, default: uuid_generate_v4())
+- user_id: uuid (not null, references auth.users.id)
+- name: text
+- avatar_url: text
+- created_at: timestamp with time zone (default: now())
+- updated_at: timestamp with time zone
+## Instruções para Configurar o Supabase com Autenticação:
+### 1. Configurar Autenticação:
+   - Acesse o dashboard do Supabase: https://app.supabase.io
+   - Selecione seu projeto
+   - Vá para a seção "Authentication" > "Settings"
+   - Em "Email Auth", habilite "Enable Email Signup"
+   - Configure o redirecionamento após confirmação de email se necessário
+### 2. Criar as Tabelas:
+   Vá para a seção "Table Editor" no menu lateral e crie cada tabela:
+### Tabela expenses:
+   - Clique em "New Table"
+   - Nome da tabela: expenses
+   - Colunas:
+     - id: tipo uuid, marque como Primary Key e Enable "default value" com uuid_generate_v4()
+     - user_id: tipo uuid, marque como "not null" e adicione Foreign Key para auth.users(id)
+     - amount: tipo numeric, marque como "not null"
+     - category: tipo text, marque como "not null"
+     - description: tipo text, marque como "not null"
+     - date: tipo date, marque como "not null"
+     - created_at: tipo timestamp with time zone, habilite "default value" com now()
+### Tabela bills:
+   - Clique em "New Table"
+   - Nome da tabela: bills
+   - Colunas:
+     - id: tipo uuid, marque como Primary Key e Enable "default value" com uuid_generate_v4()
+     - user_id: tipo uuid, marque como "not null" e adicione Foreign Key para auth.users(id)
+     - amount: tipo numeric, marque como "not null"
+     - description: tipo text, marque como "not null"
+     - due_date: tipo date, marque como "not null"
+     - payment_date: tipo date
+     - status: tipo text, marque como "not null", default value: 'pending'
+     - recurrent: tipo boolean, marque como "not null", default value: false
+     - recurrence_period: tipo text
+     - created_at: tipo timestamp with time zone, habilite "default value" com now()
+### Tabela income:
+   - Clique em "New Table"
+   - Nome da tabela: income
+   - Colunas:
+     - id: tipo uuid, marque como Primary Key e Enable "default value" com uuid_generate_v4()
+     - user_id: tipo uuid, marque como "not null" e adicione Foreign Key para auth.users(id)
+     - amount: tipo numeric, marque como "not null"
+     - source: tipo text, marque como "not null"
+     - description: tipo text, marque como "not null"
+     - date: tipo date, marque como "not null"
+     - created_at: tipo timestamp with time zone, habilite "default value" com now()
+### Tabela budget:
+   - Clique em "New Table"
+   - Nome da tabela: budget
+   - Colunas:
+     - id: tipo uuid, marque como Primary Key e Enable "default value" com uuid_generate_v4()
+     - user_id: tipo uuid, marque como "not null" e adicione Foreign Key para auth.users(id)
+     - month: tipo text, marque como "not null"
+     - year: tipo integer, marque como "not null"
+     - amount: tipo numeric, marque como "not null"
+     - created_at: tipo timestamp with time zone, habilite "default value" com now()
+### Tabela user_settings:
+   - Clique em "New Table"
+   - Nome da tabela: user_settings
+   - Colunas:
+     - id: tipo uuid, marque como Primary Key e Enable "default value" com uuid_generate_v4()
+     - user_id: tipo uuid, marque como "not null" e adicione Foreign Key para auth.users(id)
+     - theme: tipo text, marque como "not null", default value: 'light'
+     - default_view: tipo text, marque como "not null", default value: 'cards'
+     - notifications_enabled: tipo boolean, marque como "not null", default value: true
+     - created_at: tipo timestamp with time zone, habilite "default value" com now()
+     - updated_at: tipo timestamp with time zone
+### Tabela user_profiles:
+   - Clique em "New Table"
+   - Nome da tabela: user_profiles
+   - Colunas:
+     - id: tipo uuid, marque como Primary Key e Enable "default value" com uuid_generate_v4()
+     - user_id: tipo uuid, marque como "not null" e adicione Foreign Key para auth.users(id)
+     - name: tipo text
+     - avatar_url: tipo text
+     - created_at: tipo timestamp with time zone, habilite "default value" com now()
+     - updated_at: tipo timestamp with time zone
+## Políticas de Segurança (RLS):
+Configure Row Level Security para proteger os dados dos usuários:
+1. Vá para a seção "Authentication" > "Policies"
+2. Para cada tabela (expenses, bills, income, budget, user_settings, user_profiles):
+   - Selecione a tabela
+   - Clique em "New Policy"
+   - Crie uma política que permita ao usuário acessar apenas seus próprios dados:
+### Exemplo de política para "expenses":
+   - Nome da política: "Users can only access their own expenses"
+   - Usando o template: "Individual users can access their own data"
+   - Para operações: SELECT, INSERT, UPDATE, DELETE
+   - Com a expressão: user_id = auth.uid()
+   - Habilite a política
+Repita o processo para as outras tabelas, adaptando o nome da política para cada uma.
